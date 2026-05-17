@@ -27,6 +27,13 @@ from pathlib import Path
 from ..schemas import CrawlerStartRequest, LogEntry
 
 
+def _env_bool(name: str, default: bool = False) -> bool:
+    value = os.getenv(name)
+    if value is None:
+        return default
+    return value.strip().lower() in {"1", "true", "yes", "y", "on"}
+
+
 class CrawlerManager:
     """Crawler process manager"""
 
@@ -228,7 +235,8 @@ class CrawlerManager:
         if config.cookies:
             cmd.extend(["--cookies", config.cookies])
 
-        cmd.extend(["--headless", "true" if config.headless else "false"])
+        headless = config.headless or _env_bool("FORCE_HEADLESS")
+        cmd.extend(["--headless", "true" if headless else "false"])
 
         return cmd
 

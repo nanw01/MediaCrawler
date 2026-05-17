@@ -1,0 +1,34 @@
+services:
+  mediacrawler:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      PORT: "8080"
+      SAVE_DATA_PATH: /app/data
+      USER_DATA_DIR: /app/browser-data/%s_user_data_dir
+      HEADLESS: "true"
+      CDP_HEADLESS: "true"
+      ENABLE_CDP_MODE: "false"
+      CDP_CONNECT_EXISTING: "false"
+      FORCE_HEADLESS: "true"
+      SAVE_DATA_OPTION: jsonl
+      MAX_CONCURRENCY_NUM: "1"
+    volumes:
+      - mediacrawler-data:/app/data
+      - mediacrawler-browser-data:/app/browser-data
+      - mediacrawler-database:/app/database
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/api/health', timeout=5)\""]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+volumes:
+  mediacrawler-data:
+  mediacrawler-browser-data:
+  mediacrawler-database:

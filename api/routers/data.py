@@ -21,13 +21,14 @@ import json
 from pathlib import Path
 from typing import Optional
 
+import config
 from fastapi import APIRouter, HTTPException
 from fastapi.responses import FileResponse
 
 router = APIRouter(prefix="/data", tags=["data"])
 
 # Data directory
-DATA_DIR = Path(__file__).parent.parent.parent / "data"
+DATA_DIR = Path(config.SAVE_DATA_PATH) if config.SAVE_DATA_PATH else Path(__file__).parent.parent.parent / "data"
 
 
 def get_file_info(file_path: Path) -> dict:
