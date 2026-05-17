@@ -20,6 +20,7 @@ RUN apt-get update \
     && apt-get install -y --no-install-recommends \
         fonts-noto-cjk \
         fonts-wqy-zenhei \
+        nodejs \
         tini \
     && rm -rf /var/lib/apt/lists/* \
     && python -m pip install --no-cache-dir uv==0.5.11
