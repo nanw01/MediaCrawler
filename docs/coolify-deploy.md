@@ -4,7 +4,7 @@
 
 MediaCrawler 是 Python 3.11 项目，WebUI 静态文件已经放在 `api/webui`，后端入口是 `api.main:app`，对外端口是 `8080`。
 
-Coolify 推荐使用本仓库新增的 `Dockerfile` 部署，不建议直接用 Nixpacks。原因是项目依赖 Playwright/Chromium、中文字体和浏览器运行参数，Dockerfile 更可控。
+Coolify 推荐使用本仓库新增的 `Dockerfile` 部署，不建议直接用 Nixpacks。原因是项目依赖 Playwright/Chromium、Node.js、中文字体和浏览器运行参数，Dockerfile 更可控。
 
 ## Coolify 创建应用
 
@@ -34,6 +34,10 @@ FORCE_HEADLESS=true
 SAVE_DATA_OPTION=jsonl
 MAX_CONCURRENCY_NUM=1
 ```
+
+## 环境检测失败：JavaScript runtime
+
+如果 WebUI 环境检测里看到 `RuntimeUnavailableError: Could not find an available JavaScript runtime.`，说明正在运行的镜像缺少 Node.js。请确认已经部署包含本 Dockerfile 的最新镜像，并在 Coolify 中执行一次重新构建，而不是仅重启旧容器。
 
 ## 登录方式建议
 
