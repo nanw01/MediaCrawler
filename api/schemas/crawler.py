@@ -20,6 +20,7 @@ from enum import Enum
 from typing import Optional, Literal
 from pydantic import BaseModel
 
+import config
 
 class PlatformEnum(str, Enum):
     """Supported media platforms"""
@@ -70,7 +71,7 @@ class CrawlerStartRequest(BaseModel):
     enable_sub_comments: bool = False
     save_option: SaveDataOptionEnum = SaveDataOptionEnum.JSONL
     cookies: str = ""
-    headless: bool = False
+    headless: bool = config.HEADLESS
 
 
 class CrawlerStatusResponse(BaseModel):
